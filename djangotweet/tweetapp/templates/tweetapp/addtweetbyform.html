@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style> 
+    form {
+        padding-left: 2.5rem;
+        padding-right: 2rem;
+    }
+    
+</style>
+
+    <h1>Add Tweet Page by Form</h1>
+
+    <div class="tweetform">
+        <form action="" method="POST">
+            {% csrf_token %}
+            <div class="mb-3 col-auto">
+                <!--{{form}}-->
+                {{form.as_p}}
+                <!--{{form.nickname_input.label_tag}}-->
+                <!--{{form.nickname_input}}-->
+            </div>
+            <button type="submit" class="btn btn-primary">Send Tweet</button>
+        </form>
+    </div>
+
+{% endblock %}

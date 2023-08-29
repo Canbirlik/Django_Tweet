@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>List Tweet Page</h1>
+
+    <div class="container-fluid">      
+        {% for tweet in Tweets %}
+        <div class="card" style="width: 18rem; padding: 5px;">
+            <h5 class="card-header" style="background-color: rgb(54, 93, 212);">{{tweet.nickname}}</h5>
+            <div class="card-body">
+                <p class="card-text">{{tweet.message}}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>  
+
+{% endblock %}
