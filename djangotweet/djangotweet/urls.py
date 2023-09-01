@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("",include("tweetapp.urls")),
     path("tweetapp/",include("tweetapp.urls")),
+    path("", include("django.contrib.auth.urls")),
 ]
