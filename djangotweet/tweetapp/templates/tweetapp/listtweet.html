@@ -7,10 +7,15 @@
     <div class="container-fluid">      
         {% for tweet in Tweets %}
         <div class="card" style="width: 18rem; padding: 5px;">
-            <h5 class="card-header" style="background-color: rgb(54, 93, 212);">{{tweet.nickname}}</h5>
+            <h5 class="card-header" style="background-color: rgb(54, 93, 212);">{{tweet.username}}</h5>
             <div class="card-body">
                 <p class="card-text">{{tweet.message}}</p>
             </div>
+
+            {% if user == tweet.username %}
+                <a href="{% url 'tweetapp:deletetweet' id=tweet.id %}" class="btn btn-danger">Delete</a>
+            {% endif %}
+
         </div>
         {% endfor %}
     </div>  

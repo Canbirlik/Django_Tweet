@@ -9,4 +9,6 @@ urlpatterns = [
     path("listtweet/", views.listtweet, name="listtweet section"),
     path("addtweetbyform/", views.addtweet_byform, name="addtweetbyform"),
     path("addtweetbymodelform/", views.addtweet_bymodelform, name="addtweetbymodelform"),
+    path("signup/", views.SignUpView.as_view(), name="signup"),
+    path("deletetweet/<int:id>", views.deletetweet, name="deletetweet"),
 ]

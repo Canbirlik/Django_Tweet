@@ -14,10 +14,13 @@
 
     <form action="" method="POST">
         {% csrf_token %}
+        <!--
         <div class="mb-3 col-auto">
           <label for="nickname" class="form-label">Nickname</label>
           <input type="text" class="form-control" id="nickname" name="nickname">
         </div>
+        -->
+        <h2>Hello, {{user.username}}</h2>
         <div class="mb-3 col-auto">
           <label for="message" class="form-label">Message</label>
           <input type="text" class="form-control" id="message" name="message">

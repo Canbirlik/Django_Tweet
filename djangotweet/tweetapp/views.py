@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 from . import models, forms
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.views.generic import CreateView
 
 # Create your views here.
 
@@ -10,12 +13,13 @@ def listtweet(request):
 
     return render(request, "tweetapp/listtweet.html", context=all_tweets_dictionary)
 
+@login_required(login_url="/login")
 def addtweet(request):
     if request.POST:
-        nickname = request.POST["nickname"]
+        #nickname = request.POST["nickname"]
         message = request.POST["message"]
 
-        tweet_obj = models.Tweet(nickname=nickname,message=message)
+        tweet_obj = models.Tweet(username=request.user,message=message)
         tweet_obj.save()
 
         #models.Tweet.objects.create(nickname,message)
@@ -29,10 +33,10 @@ def addtweet_byform(request):
 
         form = forms.AddTweetForm(request.POST)
         if form.is_valid():
-            nickname = form.cleaned_data["nickname_input"]
+            #nickname = form.cleaned_data["nickname_input"]
             message = form.cleaned_data["message_input"]
 
-            tweet_obj = models.Tweet(nickname=nickname,message=message)
+            tweet_obj = models.Tweet(username=request.user,message=message)
             tweet_obj.save()
 
             return(redirect(reverse("tweetapp:listtweet")))
@@ -48,10 +52,10 @@ def addtweet_bymodelform(request):
     if request.POST:
         form = forms.AddTweetModelForm(request.POST)
         if form.is_valid():
-            nickname = form.cleaned_data["nickname"]
+            #nickname = form.cleaned_data["nickname"]
             message = form.cleaned_data["message"]
 
-            tweet_obj = models.Tweet(nickname=nickname,message=message)
+            tweet_obj = models.Tweet(username=request.user,message=message)
             tweet_obj.save()
 
             return(redirect(reverse("tweetapp:listtweet")))
@@ -62,3 +66,16 @@ def addtweet_bymodelform(request):
     else:
         form = forms.AddTweetModelForm()
         return render(request, "tweetapp/addtweetbymodelform.html", context={"form":form})
+    
+@login_required(login_url="/login")
+def deletetweet(request,id):
+    tweet = models.Tweet.objects.get(pk=id)
+    if request.user == tweet.username:
+        models.Tweet.objects.filter(id=id).delete()
+        return(redirect(reverse("tweetapp:listtweet")))
+
+
+class SignUpView(CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy("login")
+    template_name = "registration/signup.html"
